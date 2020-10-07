@@ -53,10 +53,10 @@
             };
             map = new kakao.maps.Map(container, option); // 지도 생성 및 객체 리턴
             //지도에 마커 표시하기
-            setMarker(lat,lng);
+            setMarker(lat,lng,'<div style="padding:5px;">현재 나의 위치</div>');
         }
         //마커표시하는 함수 
-      var setMarker = function(lat,lng){
+      var setMarker = function(lat,lng,content){
             // 마커가 표시될 위치입니다 
             var markerPosition  = new kakao.maps.LatLng(lat, lng); 
 
@@ -70,7 +70,23 @@
             marker.setMap(map);
             //마커가 드래그 가능하도록 설정
             marker.setDraggable(true); 
+
+            //마커에 클릭이벤트 등록하기
+            setMarkerClick(marker,content);
       };
+      //마커에 클릭 이벤트 등록 함수 
+      function setMarkerClick(marker,content){
+        var infowindow = new kakao.maps.InfoWindow({
+                content : content,
+                removable : true
+            });
+
+            // 마커에 클릭이벤트를 등록합니다
+            kakao.maps.event.addListener(marker, 'click', function() {
+                // 마커 위에 인포윈도우를 표시합니다
+                infowindow.open(map, marker);  
+            });
+      }
     </script>
 </body>
 </html>
